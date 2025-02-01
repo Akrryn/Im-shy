@@ -1,84 +1,71 @@
 const yesBtn = document.getElementById('yes-btn');
-const questionText = document.querySelector('.question');
-let inputCreated = false;
-let input;
+const noBtn = document.getElementById('no-btn');
+const questionText = document.getElementById('question');
+
+// Список вопросов
+const questions = [
+  "იქნები ჩემი მხედართმთავარი?",
+  "იქნები ჩემი ცხენის ნაშა?",
+  "იქნები ჩემი ხველის წამალი?",
+  "იქნები ჩემი დონ კორლეონე?"
+];
+
+let currentQuestionIndex = 0;
 
 // Функция для создания анимации конфетти
 function createConfettiAnimation() {
   confetti({
-    particleCount: 100, // количество частиц конфетти
-    spread: 70, // радиус разброса частиц
-    origin: { y: 0.6 } // начальное положение частиц (сверху)
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 }
   });
 }
 
-// Функция для обработки нажатия на кнопку "Yes"
-const handleClick = () => {
-// Создаем анимацию конфетти при нажатии на кнопку "Send"
-      createConfettiAnimation();
-  // Проверяем, было ли уже создано окно ввода текста
-  if (!inputCreated) {
-    // Создаем элемент ввода текста
-    input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = 'Enter the text...';
-
-    // Стили для элемента ввода текста
-    input.style.width = 'calc(100% - 20px)'; // учитываем внутренний отступ кнопки
-    input.style.padding = '10px';
-    input.style.boxSizing = 'border-box';
-    input.style.border = 'none';
-    input.style.borderRadius = '10px';
-    input.style.fontFamily = 'Arial, sans-serif';
-    input.style.fontSize = '16px';
-    input.style.color = '#333'; // цвет текста
-    input.style.background = '#f9f9f9'; // цвет фона
-    input.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)'; // тень
-
-    // Создаем кнопку для отправки текста
-    const sendButton = document.createElement('button');
-    sendButton.textContent = 'Send';
-    sendButton.style.marginTop = '10px'; // добавляем немного отступа сверху
-    sendButton.style.padding = '5px 10px';
-    sendButton.style.border = 'none';
-    sendButton.style.borderRadius = '5px';
-    sendButton.style.background = '#007bff'; // цвет кнопки
-    sendButton.style.color = '#fff'; // цвет текста кнопки
-    sendButton.style.fontFamily = 'Arial, sans-serif';
-    sendButton.style.fontSize = '16px';
-    sendButton.style.cursor = 'pointer';
-
-    // Обработчик для кнопки отправки текста
-    sendButton.addEventListener('click', () => {
-
-      // Создаем анимацию конфетти при нажатии на кнопку "Send"
-      createConfettiAnimation();
-    });
-
-    // Добавляем элемент ввода текста и кнопку внутрь контейнера кнопки "Yes"
-    yesBtn.appendChild(input);
-    yesBtn.appendChild(sendButton);
-
-    inputCreated = true;
-
-    // Удаляем обработчик события click, чтобы кнопка больше не реагировала на нажатия
-    yesBtn.removeEventListener('click', handleClick);
-
-    // Меняем текст над кнопкой на "When"
-    questionText.textContent = 'When?';
+// Функция для обновления вопроса
+function updateQuestion() {
+  if (currentQuestionIndex < questions.length) {
+    questionText.textContent = questions[currentQuestionIndex];
+    currentQuestionIndex++;
+  } else {
+    // Если вопросы закончились
+    questionText.textContent = "წინასწარ ვიცოდი კის რომ იტყოდი ამიტომ წამო რამე ვჭამოთ! 💖";
+    yesBtn.style.display = 'none';
+    noBtn.style.display = 'none';
   }
-};
+}
 
-// Добавляем обработчик нажатия на кнопку "Yes"
-yesBtn.addEventListener('click', handleClick);
+// Инициализация начальной позиции кнопки "No"
+function initializeNoButtonPosition() {
+  const rect = noBtn.getBoundingClientRect();
+  noBtn.style.left = `${rect.left}px`;
+  noBtn.style.top = `${rect.top}px`;
+}
 
-const noBtn = document.getElementById('no-btn');
-
-// Добавляем обработчик наведения курсора на кнопку "No"
-noBtn.addEventListener('mouseenter', () => {
-  // Устанавливаем случайные координаты для кнопки "No"
-  noBtn.style.position = 'absolute';
-  noBtn.style.top = Math.random() * 80 + '%';
-  noBtn.style.left = Math.random() * 80 + '%';
+// Обработчик для кнопки "Yes"
+yesBtn.addEventListener('click', () => {
+  createConfettiAnimation();
+  updateQuestion();
 });
 
+// Обработчик для кнопки "No"
+noBtn.addEventListener('mouseenter', () => {
+  moveButton();
+});
+
+// Функция для плавного перемещения кнопки "No"
+function moveButton() {
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
+
+  const randomX = Math.random() * maxX;
+  const randomY = Math.random() * maxY;
+
+  // Плавное перемещение
+  noBtn.style.transition = 'left 0.5s ease, top 0.5s ease';
+  noBtn.style.left = `${Math.min(Math.max(randomX, 0), maxX)}px`;
+  noBtn.style.top = `${Math.min(Math.max(randomY, 0), maxY)}px`;
+}
+
+// Инициализация первого вопроса и позиции кнопки "No"
+updateQuestion();
+initializeNoButtonPosition();
