@@ -7,19 +7,19 @@ body {
   position: relative;
 }
 
-/* Фон с сердечками */
+
 body::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 200%; /* Увеличиваем ширину для бесшовного loop */
-  height: 200%; /* Увеличиваем высоту для бесшовного loop */
+  width: 200%; 
+  height: 200%; 
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="%23FF69B4"><path d="M100 36.4c12.5-24.5 42.5-32.7 63.6-16.4 23.6 18.1 20.7 53.6 6.4 72.4L100 170.8 30 92.4c-14.3-18.8-17.2-54.3 6.4-72.4 21.1-16.3 51.1-8.1 63.6 16.4z"/></svg>');
-  background-size: 80px; /* Уменьшенные сердечки */
-  opacity: 0.3; /* Прозрачность сердечек */
+  background-size: 80px; 
+  opacity: 0.3; 
   z-index: -1;
-  animation: moveHearts 70s linear infinite; /* Анимация движения */
+  animation: moveHearts 70s linear infinite; 
 }
 
 @keyframes moveHearts {
@@ -27,7 +27,7 @@ body::before {
     transform: translate(0, 0);
   }
   100% {
-    transform: translate(-50%, -50%); /* Движение по диагонали */
+    transform: translate(-50%, -50%); 
   }
 }
 
@@ -43,19 +43,19 @@ body::before {
 
 .question {
   font-size: 42px;
-  color: #8B008B; /* Темно-пурпурный (романтичный и глубокий) */
+  color: #8B008B; 
   text-align: center;
   margin-bottom: 30px;
   transition: opacity 0.5s ease;
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Мягкая тень */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 .buttons {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-  gap: 20px; /* Расстояние между кнопками */
+  gap: 20px; 
 }
 
 button {
@@ -64,8 +64,8 @@ button {
   cursor: pointer;
   border: none;
   border-radius: 50px;
-  background-color: #FF69B4; /* Яркий розовый (romantic pink) */
-  color: #FFFFFF; /* Белый текст */
+  background-color: #FF69B4; 
+  color: #FFFFFF; 
   transition: all 0.5s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   font-weight: 600;
@@ -73,7 +73,7 @@ button {
 
 button:hover {
   transform: scale(1.1);
-  background-color: #FF1493; /* Яркий пурпурный (deep pink) */
+  background-color: #FF1493; 
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
