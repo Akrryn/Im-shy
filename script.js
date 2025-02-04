@@ -9,14 +9,20 @@ const questions = [
 
 let currentQuestionIndex = 0;
 
+// Confetti animation
 function createConfettiAnimation() {
-  confetti({
-    particleCount: 150,
-    spread: 70,
-    origin: { y: 0.6 }
-  });
+  if (typeof confetti === 'function') {
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  } else {
+    console.error("Confetti library not loaded!");
+  }
 }
 
+// Update the question text
 function updateQuestion() {
   if (currentQuestionIndex < questions.length) {
     questionText.textContent = questions[currentQuestionIndex];
@@ -28,56 +34,56 @@ function updateQuestion() {
   }
 }
 
+// Initialize button positions
 function initializeButtonPositions() {
   const containerWidth = window.innerWidth;
   const containerHeight = window.innerHeight;
 
-  // Центр экрана
   const centerX = containerWidth / 2;
   const centerY = containerHeight / 2;
 
-  // Кнопка "Да" - по центру экрана
   yesBtn.style.left = `${centerX - yesBtn.offsetWidth / 2}px`;
-  yesBtn.style.top = `${centerY - yesBtn.offsetHeight / 2 - 30}px`;  // Немного выше центра
+  yesBtn.style.top = `${centerY - yesBtn.offsetHeight / 2 - 30}px`;
 
-  // Кнопка "Нет" - ниже кнопки "Да"
   noBtn.style.left = `${centerX - noBtn.offsetWidth / 2}px`;
-  noBtn.style.top = `${centerY - noBtn.offsetHeight / 2 + 150}px`; // 50px ниже кнопки "Да"
+  noBtn.style.top = `${centerY - noBtn.offsetHeight / 2 + 150}px`;
 }
 
-function adjustButtonPositions() {
-  // Перерасчет позиций при изменении размера окна
-  initializeButtonPositions();
-}
-
+// Move the "No" button randomly
 function moveButton() {
-  const maxX = window.innerWidth - noBtn.offsetWidth;
-  const maxY = window.innerHeight - noBtn.offsetHeight;
+  if (noBtn.style.display !== "none") { // Проверяем, видима ли кнопка
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
 
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
 
-  noBtn.style.transition = 'left 0.5s ease, top 0.5s ease';
-  noBtn.style.left = `${Math.min(Math.max(randomX, 0), maxX)}px`;
-  noBtn.style.top = `${Math.min(Math.max(randomY, 0), maxY)}px`;
+    noBtn.style.transition = 'left 0.5s ease, top 0.5s ease';
+    noBtn.style.left = `${Math.min(Math.max(randomX, 0), maxX)}px`;
+    noBtn.style.top = `${Math.min(Math.max(randomY, 0), maxY)}px`;
+  }
 }
 
-window.addEventListener('resize', adjustButtonPositions); // Ребалансировка кнопок при изменении размера окна
+// Ребалансировка кнопок при изменении размера окна
+window.addEventListener('resize', initializeButtonPositions);
 
+// Обработка клика на "კი"
 yesBtn.addEventListener('click', () => {
   createConfettiAnimation();
   updateQuestion();
 });
 
-// Для мобильных устройств используем touchstart для имитации поведения mouseenter
+// Обработка наведения на "არა" (для десктопов)
 noBtn.addEventListener('mouseenter', () => {
   moveButton();
 });
 
+// Обработка касания на "არა" (для мобильных устройств)
 noBtn.addEventListener('touchstart', (event) => {
   moveButton();
   event.preventDefault(); // Предотвращаем стандартное поведение
 });
 
+// Инициализация
 updateQuestion();
-initializeButtonPositions(); // Инициализация симметричных позиций кнопок
+initializeButtonPositions();
