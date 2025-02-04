@@ -5,9 +5,7 @@ const questionText = document.getElementById('question');
 
 const questions = [
   "იქნები ჩემი მხედართმთავარი?",
-  "იქნები ჩემი ცხენის ნაშა?",
-  "იქნები ჩემი ხველის წამალი?",
-  "იქნები ჩემი დონ კორლეონე?"
+  "იქნები ჩემი ზაფხული?"
 ];
 
 let currentQuestionIndex = 0;
