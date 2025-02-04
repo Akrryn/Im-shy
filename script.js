@@ -38,7 +38,7 @@ function initializeButtonPositions() {
 
   // Кнопка "Да" - по центру экрана
   yesBtn.style.left = `${centerX - yesBtn.offsetWidth / 2}px`;
-  yesBtn.style.top = `${centerY - yesBtn.offsetHeight / 2 - 20}px`;  // Немного выше центра
+  yesBtn.style.top = `${centerY - yesBtn.offsetHeight / 2 - 30}px`;  // Немного выше центра
 
   // Кнопка "Нет" - ниже кнопки "Да"
   noBtn.style.left = `${centerX - noBtn.offsetWidth / 2}px`;
@@ -69,8 +69,14 @@ yesBtn.addEventListener('click', () => {
   updateQuestion();
 });
 
+// Для мобильных устройств используем touchstart для имитации поведения mouseenter
 noBtn.addEventListener('mouseenter', () => {
   moveButton();
+});
+
+noBtn.addEventListener('touchstart', (event) => {
+  moveButton();
+  event.preventDefault(); // Предотвращаем стандартное поведение
 });
 
 updateQuestion();
